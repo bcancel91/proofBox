@@ -1,0 +1,17 @@
+.mainHeader {
+  font-size: x-large;
+}
+
+.mainHeader a {
+  float: left;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.mainHeader a:hover {
+  color: blueviolet;
+}
+
+.mainHeaderRight {
+  float: right;
+}
