@@ -1,19 +1,27 @@
 const express = require("express");
-const favicon = require("express-favicon");
 const path = require("path");
-const port = process.env.PORT || 8080;
+const bodyParser = require("body-parser");
+const port = process.env.PORT || 8000;
+var routesRouter = require("./routes/routes");
+const mongoose = require("mongoose");
 const app = express();
+var cors = require("cors");
 
 // the __dirname is the current directory from where the script is running
-app.use(express.static(__dirname));
-app.use(express.static(path.join(__dirname, "build")));
-app.get("/ping", function (req, res) {
-  return res.send("pong");
-});
-app.get("/*", function (req, res) {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
-app.listen(port);
+app.use(cors());
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use("/", routesRouter);
+app.use(express.static(path.join(__dirname, "client/build")));
+mongoose
+  .connect("mongodb+srv://kevinkyle4:redondo1@mflix-01nch.mongodb.net/proofbox?retryWrites=true&w=majority", { useNewUrlParser: true })
+  .then(() => {
+    app.listen(port, () => console.log(`Listening on port ${port}`));
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 
 

@@ -1,12 +1,11 @@
 import React from "react";
-import Header from "../Header";
 import ReceiptInput from "../Components/ReceiptInput";
 import "./Home.css";
 
 const Home = () => {
   return (
     <div>
-      
+      <ReceiptInput />
 
       <div>
         <div>Hello</div>
