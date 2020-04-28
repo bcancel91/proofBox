@@ -1,0 +1,17 @@
+.mainHeader {
+  font-size: x-large;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mainHeader a {
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.mainHeader a:hover {
+  color: blueviolet;
+}
+
+
