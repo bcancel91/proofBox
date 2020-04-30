@@ -1,8 +1,8 @@
 var mongoose = require("mongoose");
 
+const Schema = mongoose.Schema;
 
-
-const userSchema = mongoose.Schema({
+const userSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -18,10 +18,16 @@ const userSchema = mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minLength: 7
+    minLength: 7,
   },
+  receipts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Receipt",
+    },
+  ],
 });
 
-var User = mongoose.model('User', userSchema);
+var User = mongoose.model("User", userSchema);
 
 module.exports = User;
