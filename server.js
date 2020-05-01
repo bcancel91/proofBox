@@ -15,14 +15,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", routesRouter);
 app.use(express.static(path.join(__dirname, "client/build")));
 mongoose
-  .connect("mongodb+srv://kevinkyle4:redondo1@mflix-01nch.mongodb.net/proofbox?retryWrites=true&w=majority", { useNewUrlParser: true })
+  .connect(
+    "mongodb+srv://kevinkyle4:redondo1@mflix-01nch.mongodb.net/proofbox?retryWrites=true&w=majority",
+    { useNewUrlParser: true }
+  )
   .then(() => {
     app.listen(port, () => console.log(`Listening on port ${port}`));
   })
   .catch((err) => {
     console.log(err);
   });
-
-
-
-
