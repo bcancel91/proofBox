@@ -1,8 +1,15 @@
 .input-container {
-    background-color: darkmagenta;
-    width: 500px;
-    margin: 300px auto;
-    padding: 20px 10px;
-    color: white;
-    border: 3px solid
+  background-color: darkmagenta;
+  width: 500px;
+  margin: 300px auto;
+  padding: 20px 10px;
+  color: white;
+  border: 3px solid;
+}
+
+.receipt-form {
+  display: flex;
+  width: 500px;
+  margin: auto;
+  flex-direction: column;
 }
