@@ -5,13 +5,31 @@
   align-items: center;
 }
 
+.logo {
+  color: green !important;
+}
+
 .mainHeader a {
   padding: 14px 16px;
   text-decoration: none;
+  color: white;
 }
 
 .mainHeader a:hover {
   color: blueviolet;
 }
 
-
+.main-button {
+  width: 90px;
+  border-radius: 5px;
+  border: 0;
+  color: white;
+  height: 38px;
+  margin: 10px auto;
+  box-shadow: 0 3px 5px 2px rgba(252, 252, 252, 0.3);
+  background: linear-gradient(
+    45deg,
+    rgb(17, 97, 15) 30%,
+    rgb(136, 117, 113) 90%
+  );
+}
