@@ -14,12 +14,20 @@ const receiptSchema = new Schema({
     type: String,
     trim: true,
   },
+  subtotal: {
+    type: String,
+  },
   total: {
     type: String,
     trim: true,
   },
-  subtotal: {
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+  path: {
     type: String,
+    trim: true,
   },
 });
 

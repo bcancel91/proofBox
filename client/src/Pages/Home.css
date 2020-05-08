@@ -9,6 +9,29 @@
   flex-direction: column;
 }
 
+.search-container {
+  width: 960px;
+  margin: 15px auto;
+}
+
+.receipt-individual > * {
+  margin: 5px;
+  padding: 5px;
+}
+
+#receipts {
+  width: 100%;
+  text-align: center;
+  padding: 8px;
+  margin: 5px 5px;
+  border: 1px solid gray;
+}
+
+.receipt-results {
+  width: 960px;
+  margin: 15px auto;
+}
+
 .receipt-items {
   display: flex;
   width: 760px;

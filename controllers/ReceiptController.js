@@ -1,12 +1,20 @@
 const ReceiptModel = require("../models/ReceiptModel");
 
-const createReceipt = async (name, category, total, subtotal, user_id) => {
+const createReceipt = async (
+  name,
+  category,
+  total,
+  subtotal,
+  date,
+  user_id
+) => {
   console.log("user_id in controller", user_id);
   const receipt = await ReceiptModel.create({
     name: name,
     category: category,
     subtotal: subtotal,
     total: total,
+    date: date,
     user_id: user_id,
   });
   return receipt;
