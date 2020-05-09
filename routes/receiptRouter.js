@@ -11,6 +11,7 @@ router.post("/add-receipt/:id", async function (req, res) {
     receipt.category,
     receipt.subtotal,
     receipt.total,
+    receipt.date,
     user_id
   );
   console.log("req.body", req.body);

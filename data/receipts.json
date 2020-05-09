@@ -1,0 +1,61 @@
+[{
+  "_id": {
+    "$oid": "5eb49aa6c8907a0398d39cd6"
+  },
+  "name": "fresh2order",
+  "category": "healty food",
+  "subtotal": "80",
+  "total": "60",
+  "date": {
+    "$date": "2020-05-07T04:00:00Z"
+  },
+  "user_id": {
+    "$oid": "5eb1db49c60713417c30c8b7"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5eb49ab2c8907a0398d39cd7"
+  },
+  "name": "McDonalds",
+  "category": "fast food",
+  "subtotal": "80",
+  "total": "60",
+  "date": {
+    "$date": "2020-05-07T04:00:00Z"
+  },
+  "user_id": {
+    "$oid": "5eb1db49c60713417c30c8b7"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5eb49ac5c8907a0398d39cd8"
+  },
+  "name": "Burger King",
+  "category": "fast food",
+  "subtotal": "15",
+  "total": "10",
+  "date": {
+    "$date": "2020-05-07T04:00:00Z"
+  },
+  "user_id": {
+    "$oid": "5eb1db49c60713417c30c8b7"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5eb49adec8907a0398d39cd9"
+  },
+  "name": "Casino",
+  "category": "Gambling",
+  "subtotal": "1500",
+  "total": "1000",
+  "date": {
+    "$date": "2020-05-07T04:00:00Z"
+  },
+  "user_id": {
+    "$oid": "5eb1db49c60713417c30c8b7"
+  },
+  "__v": 0
+}]
