@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import Home from "./Pages/Home";
 import Header from "./Header";
+import DemoContainer from "./demo.body"
+import SeneriosContainer from "./senerios.body"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 const App = () => {
@@ -13,7 +15,8 @@ const App = () => {
         <div>
           <Switch>
             <Route path="/" exact>
-              <Home />
+            <DemoContainer />
+            <SeneriosContainer />
             </Route>
           </Switch>
         </div>
