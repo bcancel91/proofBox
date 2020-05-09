@@ -25,6 +25,7 @@
     "if-env": "^1.0.4",
     "mongoose": "^5.9.10",
     "multer": "^1.4.2",
+    "multer-gridfs-storage": "^4.0.3",
     "nodemon": "^2.0.3",
     "passport": "^0.4.1",
     "react-instantsearch-dom": "^6.4.0",
