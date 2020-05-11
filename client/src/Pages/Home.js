@@ -1,78 +1,123 @@
-import React, { useReducer } from "react";
-import ReceiptInput from "../Components/ReceiptInput";
+import React, { useState, useEffect } from "react";
+import image1 from "../images/receipt1.jpeg";
+import { useParams } from "react-router-dom";
 import "./Home.css";
 import axios from "axios";
-
-const initialState = {
-  category: "",
-  total: "",
-  subtotal: "",
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "CATEGORY_CHANGED":
-      return {
-        ...state,
-        category: action.payload,
-      };
-    case "TOTAL_CHANGED":
-      return {
-        ...state,
-        total: action.payload,
-      };
-    case "SUBTOTAL_CHANGED":
-      return {
-        ...state,
-        subtotal: action.payload,
-      };
-    default:
-      return state;
-  }
-};
+import ImageGrid from "../ImageGrid";
+import receiptsApi from "../api/receiptsApi";
 
 const Home = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [userReceipts, setUserReceipts] = useState([]);
 
-  function handleSubmit(e) {
+  const params = useParams();
+  const tempUserId = "5eb1db49c60713417c30c8b7";
+
+  const [state, setState] = useState({
+    name: "",
+    category: "",
+    subtotal: "",
+    total: "",
+    user_id: tempUserId,
+  });
+
+  const addReceipt = async (e) => {
     e.preventDefault();
-    axios.post("/api/create", state).then(function (res) {
-      console.log(res);
+    const response = await receiptsApi.addReceiptToUser(state);
+
+    console.log("response", response);
+    // const receiptData = await receiptsApi.fetchReceipts();
+
+    // setUserReceipts(receiptData)
+    fetchReceipts();
+    const data = await response.json();
+    console.log("data", data);
+    setState(data);
+  };
+
+  const deleteReceipt = (receipt_id) => {
+    const response = receiptsApi.deleteReceipt(receipt_id);
+  };
+
+  const fetchReceipts = async () => {
+    try {
+      const response = await receiptsApi.getUserReceipts(tempUserId);
+      const result = await response.json();
+      setUserReceipts(result);
+
+      console.log("result", result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchReceipts();
+  }, []);
+
+  // change handler
+
+  function handleChange(e) {
+    const value = e.target.value;
+    setState({
+      ...state,
+      [e.target.name]: value,
     });
   }
 
   return (
     <div>
-      <ReceiptInput />
-
-      <div>
-        <div>
-          <form onSubmit={handleSubmit} className="receipt-form">
+      <div className="image-box">
+        <ImageGrid />
+      </div>
+      <div className="receipt-results">
+        {userReceipts.map((item, index) => {
+          return (
+            <div className="receipt-items">
+              <div> Name: {item.name}</div>
+              <div> Category: {item.category}</div>
+              <div>Subtotal: $ {item.subtotal}</div>
+              <div> Total: $ {item.total}</div>
+              <button
+                index={item._id}
+                onClick={() => deleteReceipt(item._id)}
+                className="delete-button"
+              >
+                X
+              </button>
+            </div>
+          );
+        })}
+      </div>
+      <div className="form-Container">
+        <div className="receipt-form-container">
+          <form className="receipt-form">
             <input
-              onChange={(e) =>
-                dispatch({ type: "CATEGORY_CHANGED", payload: e.target.value })
-              }
+              name="name"
+              value={state.name}
+              placeholder="Name"
+              onChange={handleChange}
+            ></input>
+            <input
+              name="category"
               value={state.category}
               placeholder="category"
+              onChange={handleChange}
             ></input>
             <input
-              onChange={(e) =>
-                dispatch({ type: "TOTAL_CHANGED", payload: e.target.value })
-              }
-              value={state.total}
-              placeholder="subtotal"
-            ></input>
-            <input
-              onChange={(e) =>
-                dispatch({ type: "SUBTOTAL_CHANGED", payload: e.target.value })
-              }
+              name="subtotal"
               value={state.subtotal}
               placeholder="subtotal"
+              onChange={handleChange}
+            ></input>
+            <input
+              name="total"
+              value={state.total}
+              placeholder="total"
+              onChange={handleChange}
             ></input>
 
-            <button type="submit">Submit</button>
+            <button onClick={addReceipt}>Upload Receipt</button>
           </form>
-          <pre>{JSON.stringify(state, null, 2)}</pre>
         </div>
       </div>
     </div>

@@ -9,10 +9,10 @@ router.post("/signup", async function (req, res) {
   console.log({ result });
 });
 
-router.post("/login", async function (req, res) {
-  const result = await UserController.login(req.body);
-  console.log("result", result);
-  res.json(result);
+router.post("/login", passport.authenticate("local"), function (req, res) {
+  // If this function gets called, authentication was successful.
+  // `req.user` contains the authenticated user.
+  res.send("success");
 });
 
 module.exports = router;

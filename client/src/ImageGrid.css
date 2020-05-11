@@ -1,0 +1,13 @@
+.image-grid-container {
+  border: 1px solid blue;
+}
+
+.image-gird-container img {
+  height: 300px;
+  width: 250px;
+}
+
+.image {
+  width: 200px;
+  margin: 3px 5px;
+}
