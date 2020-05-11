@@ -6,6 +6,8 @@ import Header from "./Header";
 import DemoContainer from "./demo.body";
 import SeneriosContainer from "./senerios.body";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Signup from "./Signup";
+import Login from "./Login";
 
 const App = () => {
   return (
@@ -14,7 +16,13 @@ const App = () => {
       <Router>
         <div>
           <Switch>
-            <Route path="/" exact>
+            <Route path="/login" exact>
+              <Login />
+            </Route>
+            <Route path="/signup" exact>
+              <Signup />
+            </Route>
+            <Route path="/">
               <DemoContainer />
               <SeneriosContainer />
             </Route>
