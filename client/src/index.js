@@ -1,10 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import Home from "./Pages/Home";
+import Home from "./Pages/Home"
 import Header from "./Header";
-import DemoContainer from "./demo.body"
-import SeneriosContainer from "./senerios.body"
+import DemoContainer from "./demo.body";
+import InfoContainer from "./info.body";
+import SeneriosContainer from "./senerios.body";
+import StatsContainer from "./stats.body";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 const App = () => {
@@ -16,7 +18,9 @@ const App = () => {
           <Switch>
             <Route path="/" exact>
             <DemoContainer />
+            <InfoContainer />
             <SeneriosContainer />
+            <StatsContainer />
             </Route>
           </Switch>
         </div>
