@@ -5,11 +5,11 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const routesRouter = require("./routes/routes");
 const mongoose = require("mongoose");
+const multer = require("multer");
 var cors = require("cors");
-const PORT = process.env.PORT || 8000;
+const port = process.env.PORT || 8000;
 const app = express();
 const ReceiptModel = require("./models/ReceiptModel");
-
 
 // the __dirname is the current directory from where the script is running
 app.use(cors());
@@ -22,14 +22,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use("/", routesRouter);
 
-app.use(
-  multer({
-    dest: "./uploads/",
-    rename: function (fieldname, filename) {
-      return filename;
-    },
-  })
-);
+// app.use(
+//   multer({
+//     dest: "./uploads/",
+//     rename: function (fieldname, filename) {
+//       return filename;
+//     },
+//   })
+// );
 
 app.post("/api/photo", function (req, res) {
   var newItem = new ReceiptModel();
@@ -54,7 +54,7 @@ mongoose
     console.log(err);
   });
 
-//   mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/proofboxDB", {
+// mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/proofboxDB", {
 //   useNewUrlParser: true,
 //   useUnifiedTopology: true,
 // });

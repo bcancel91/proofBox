@@ -25,10 +25,11 @@ const App = () => {
               <Signup />
             </Route>
             <Route path="/">
-              <DemoContainer />
-              <InfoContainer />
+              {/* <DemoContainer />
               <SeneriosContainer />
-              <StatsContainer />
+              <InfoContainer />
+              <StatsContainer /> */}
+              <Home />
             </Route>
           </Switch>
         </div>
