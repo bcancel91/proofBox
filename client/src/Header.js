@@ -5,13 +5,13 @@ import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <div className="mainHeader">
-      <a className="logo" href="#">
+      <a className="logo" href="/">
         Proofbox
       </a>
 
       <div className="mainHeaderRight">
         <button className="main-button">
-          <a href="#">Signup</a>
+          <a href="/signup">Signup</a>
         </button>
         <button className="main-button">
           <Link to="login">Login</Link>
