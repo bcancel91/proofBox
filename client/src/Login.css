@@ -1,0 +1,46 @@
+.login-page {
+  width: 30%;
+  margin: 75px auto;
+  height: fit-content;
+  border: 2px solid gray;
+  padding: 25px;
+  color: white;
+  background-color: darkgreen;
+}
+
+.logo-login {
+  text-align: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  margin: auto;
+}
+
+.login-form button {
+  color: white;
+  background: linear-gradient(
+    45deg,
+    rgb(17, 97, 15) 30%,
+    rgb(136, 117, 113) 90%
+  );
+  border-radius: 5px;
+  border: 0;
+  color: white;
+  height: 38px;
+  width: 90px;
+  margin: 10px auto;
+  box-shadow: 0 3px 5px 2px rgba(252, 252, 252, 0.3);
+}
+
+.login-form label {
+  margin: 5px 0px 5px 0px;
+}
+
+.login-form input {
+  border-radius: 5px;
+  height: 25px;
+  margin: 5px 0px 5px 0px;
+}

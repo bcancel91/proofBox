@@ -7,8 +7,11 @@ import ImageGrid from "../ImageGrid";
 import receiptsApi from "../api/receiptsApi";
 import algoliasearch from "algoliasearch/lite";
 import { InstantSearch, SearchBox, Hits } from "react-instantsearch-dom";
+import DefaultImg from "../images/default-img.jpg";
 
 // search area
+
+const API_URL = "http://localhost:8000";
 
 const searchClient = algoliasearch(
   "FRJVR4E6Y4",
@@ -37,9 +40,50 @@ const Home = () => {
     category: "",
     subtotal: "",
     total: "",
-    imageURL: "",
+    multerImage: DefaultImg,
     user_id: tempUserId,
   });
+
+  function setDefaultImage(uploadType) {
+    if (uploadType === "multer") {
+      setState({
+        multerImage: DefaultImg,
+      });
+    } else {
+      setState({
+        baseImage: DefaultImg,
+      });
+    }
+  }
+
+  function uploadImage(e, method) {
+    let imageObj = {};
+
+    if (method === "multer") {
+      let imageFormObj = new FormData();
+
+      imageFormObj.append("imageData", e.target.files[0]);
+
+      setState({
+        multerImage: URL.createdObjectURL(e.target.files[0]),
+      });
+
+      axios
+        .post(`${API_URL}/image/uploadmulter`, imageFormObj)
+        .then((data) => {
+          if (data.data.success) {
+            alert("Image has been successfully uploaded using multer");
+            setDefaultImage("multer");
+          }
+        })
+        .catch((err) => {
+          alert("error while uploading image using multer");
+          setDefaultImage("multer");
+        });
+    } else if (method === "firebase") {
+      console.log("firebase");
+    }
+  }
 
   const addReceipt = async (e) => {
     e.preventDefault();
@@ -57,6 +101,10 @@ const Home = () => {
 
   const deleteReceipt = (receipt_id) => {
     const response = receiptsApi.deleteReceipt(receipt_id);
+  };
+
+  const updateReceipt = (receipt_id) => {
+    const response = receiptsApi.updateReceipt(receipt_id);
   };
 
   const fetchReceipts = async () => {
@@ -78,10 +126,9 @@ const Home = () => {
   // change handler
 
   function handleChange(e) {
-    const value = e.target.value;
+    const { value, name } = e.target;
     setState({
-      ...state,
-      [e.target.name]: value,
+      [name]: value,
     });
   }
 
@@ -103,6 +150,7 @@ const Home = () => {
             <th>Category</th>
             <th>Subtotal</th>
             <th>Total</th>
+            <th>Date</th>
           </tr>
           {userReceipts.map((item, index) => {
             return (
@@ -111,6 +159,8 @@ const Home = () => {
                 <td> {item.category}</td>
                 <td>$ {item.subtotal}</td>
                 <td>$ {item.total}</td>
+                <td>$ {item.date}</td>
+                <button onClick={() => updateReceipt(item.id)}>Update</button>
                 <button
                   index={item._id}
                   onClick={() => deleteReceipt(item._id)}
@@ -125,7 +175,7 @@ const Home = () => {
       </div>
       <div className="form-Container">
         <div className="receipt-form-container">
-          <form className="receipt-form">
+          <form enctype="multipart/form-data" className="receipt-form">
             <input
               name="name"
               value={state.name}
@@ -150,12 +200,15 @@ const Home = () => {
               placeholder="total"
               onChange={handleChange}
             ></input>
+
             <input
               name="imageURL"
-              value={state.total}
+              type="file"
+              id="input-files"
               placeholder="Upload Image"
-              onChange={handleChange}
+              onChange={(e) => this.uploadImage(e, "multer")}
             ></input>
+            <img src={state.multerImage} alt="upload-image"></img>
 
             <button onClick={addReceipt}>Upload Receipt</button>
           </form>
