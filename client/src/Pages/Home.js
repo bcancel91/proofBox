@@ -5,6 +5,26 @@ import "./Home.css";
 import axios from "axios";
 import ImageGrid from "../ImageGrid";
 import receiptsApi from "../api/receiptsApi";
+import algoliasearch from "algoliasearch/lite";
+import { InstantSearch, SearchBox, Hits } from "react-instantsearch-dom";
+
+// search area
+
+const searchClient = algoliasearch(
+  "FRJVR4E6Y4",
+  "c85d022bc27816c31277cfc57bc250ff"
+);
+
+const Hit = ({ hit }) => {
+  console.log("hit", hit);
+  return (
+    <div>
+      <p>
+        {hit.name} || {hit.category}
+      </p>
+    </div>
+  );
+};
 
 const Home = () => {
   const [userReceipts, setUserReceipts] = useState([]);
@@ -17,6 +37,7 @@ const Home = () => {
     category: "",
     subtotal: "",
     total: "",
+    imageURL: "",
     user_id: tempUserId,
   });
 
@@ -68,25 +89,39 @@ const Home = () => {
     <div>
       <div className="image-box">
         <ImageGrid />
+        <div className="search-container">
+          <InstantSearch searchClient={searchClient} indexName="receipts">
+            <SearchBox />
+            <Hits hitComponent={Hit} />
+          </InstantSearch>
+        </div>
       </div>
       <div className="receipt-results">
-        {userReceipts.map((item, index) => {
-          return (
-            <div className="receipt-items">
-              <div> Name: {item.name}</div>
-              <div> Category: {item.category}</div>
-              <div>Subtotal: $ {item.subtotal}</div>
-              <div> Total: $ {item.total}</div>
-              <button
-                index={item._id}
-                onClick={() => deleteReceipt(item._id)}
-                className="delete-button"
-              >
-                X
-              </button>
-            </div>
-          );
-        })}
+        <table id="receipts">
+          <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Subtotal</th>
+            <th>Total</th>
+          </tr>
+          {userReceipts.map((item, index) => {
+            return (
+              <tr className="receipt-individual">
+                <td> {item.name}</td>
+                <td> {item.category}</td>
+                <td>$ {item.subtotal}</td>
+                <td>$ {item.total}</td>
+                <button
+                  index={item._id}
+                  onClick={() => deleteReceipt(item._id)}
+                  className="delete-button"
+                >
+                  X
+                </button>
+              </tr>
+            );
+          })}
+        </table>
       </div>
       <div className="form-Container">
         <div className="receipt-form-container">
@@ -113,6 +148,12 @@ const Home = () => {
               name="total"
               value={state.total}
               placeholder="total"
+              onChange={handleChange}
+            ></input>
+            <input
+              name="imageURL"
+              value={state.total}
+              placeholder="Upload Image"
               onChange={handleChange}
             ></input>
 
