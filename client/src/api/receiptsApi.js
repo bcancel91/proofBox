@@ -20,6 +20,10 @@ const receiptsApi = (api) => {
     return api.post(deleteReceiptUrl + "/" + user_id);
   };
 
+  const updateReceipt = (receipt_id) => {
+    return api.post("api/receipt/updateReceipt" + receipt_id);
+  };
+
   return {
     getUserReceipts,
     addReceiptToUser,

@@ -25,9 +25,9 @@ const receiptSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  path: {
+  imageData: {
     type: String,
-    trim: true,
+    required: true,
   },
 });
 

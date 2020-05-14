@@ -19,10 +19,25 @@ router.post("/add-receipt/:id", async function (req, res) {
   res.send(result);
 });
 
+//update name
+
+router.post("/updateReceipt/:id", async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const body = req.body.name;
+    console.log("body", body);
+    const result = await ReceiptController.updateReceipt(_id, body);
+    console.log("result", result);
+    res.send(result);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
 router.get("/get-user-receipts/:id", async (req, res) => {
   try {
     const _id = req.params.id;
-    console.log("project id", _id);
+    console.log("receipt id", _id);
     const result = await ReceiptController.getUserReceipts(_id);
     res.send(result);
   } catch (error) {

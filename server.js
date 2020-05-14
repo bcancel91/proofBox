@@ -30,13 +30,10 @@ app.use("/", routesRouter);
 //     },
 //   })
 // );
+app.use("/uploads", express.static("uploads"));
 
-app.post("/api/photo", function (req, res) {
-  var newItem = new ReceiptModel();
-  newItem.img.data = fs.readFileSync(req.files.userPhoto.path);
-  newItem.img.contentType = "image/png";
-  newItem.save();
-});
+/* stores image in uploads folder using multer and creates a referene to the file
+ */
 
 app.use(express.static(path.join(__dirname, "client/build")));
 mongoose
