@@ -9,8 +9,12 @@
   color: green !important;
 }
 
+.search-container {
+  width: 560px;
+  margin: 15px auto;
+}
+
 .mainHeader a {
-  padding: 14px 16px;
   text-decoration: none;
   color: white;
 }
@@ -25,7 +29,7 @@
   border: 0;
   color: white;
   height: 38px;
-  margin: 10px auto;
+  margin: 10px 4px;
   box-shadow: 0 3px 5px 2px rgba(252, 252, 252, 0.3);
   background: linear-gradient(
     45deg,
