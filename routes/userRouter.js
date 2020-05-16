@@ -22,15 +22,14 @@ router.get("/auth", (req, res) => {
   else res.json(false);
 });
 
-  console.log({ result });
-  res.json(result);
-});
+//   console.log({ result });
+//   res.json(result);
+// });
 
 router.post("/login", passport.authenticate("local"), function (req, res) {
   // If this function gets called, authentication was successful.
   // `req.user` contains the authenticated user.
   res.send("success");
 });
-
 
 module.exports = router;

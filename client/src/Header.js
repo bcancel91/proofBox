@@ -30,6 +30,7 @@ const Header = () => {
           src={proofboxlogo}
           alt="document logo"
         />
+      </a>
       <div className="search-container">
         <InstantSearch searchClient={searchClient} indexName="receipts">
           <SearchBox />

@@ -13,6 +13,7 @@ const ReceiptModel = require("./models/ReceiptModel");
 
 // the __dirname is the current directory from where the script is running
 app.use(cors());
+app.options("*", cors());
 app.use(express.json());
 app.use(
   session({ secret: "keyboard cat", resave: true, saveUninitialized: true })

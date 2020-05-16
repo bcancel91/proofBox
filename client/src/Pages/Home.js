@@ -9,33 +9,23 @@ import receiptsApi from "../api/receiptsApi";
 import DefaultImg from "../images/default-img.jpg";
 import Vegas1 from "../images/vegas1.jpg";
 
+const tempUserId = "5eb1db49c60713417c30c8b7";
+
+const endpoint = "http://localhost:8000/api/receipt/add-receipt/" + tempUserId;
+
 const Home = () => {
   const [userReceipts, setUserReceipts] = useState([]);
 
   const params = useParams();
-  const tempUserId = "5eb1db49c60713417c30c8b7";
 
   const [state, setState] = useState({
+    receiptName: "",
     name: "",
-    category: "",
     subtotal: "",
+    category: "",
     total: "",
     file: null,
-    imgSrc: DefaultImg,
-    user_id: tempUserId,
   });
-
-  function setDefaultImage(uploadType) {
-    if (uploadType === "multer") {
-      setState({
-        multerImage: DefaultImg,
-      });
-    } else {
-      setState({
-        baseImage: DefaultImg,
-      });
-    }
-  }
 
   const addReceipt = async (e) => {
     e.preventDefault();
@@ -77,12 +67,30 @@ const Home = () => {
 
   // change handler
 
-  function handleChange(e) {
-    const { value, name } = e.target;
+  function onChange(e) {
     setState({
-      [name]: value,
+      [e.target.name]: e.target.value,
     });
   }
+
+  const handleSelectedFile = (e) => {
+    e.preventDefault();
+    setState({
+      name: e.target.value,
+      file: e.target.files[0],
+    });
+  };
+
+  const handleUpload = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    console.log("data", data);
+    data.append("file", state.file, state.name);
+
+    axios.post(endpoint, data).then(() => {
+      console.log("finished for now");
+    });
+  };
 
   return (
     <div>
@@ -95,10 +103,11 @@ const Home = () => {
       </div>
       <div className="receipt-results">
         <div className="title-section">
-          <h3>Manage Expenses</h3>
+          <h3 style={{ margin: "10px" }}>Manage Expenses</h3>
           <table id="receipts">
             <tr>
               <th>Name</th>
+              <th>Image</th>
               <th>Category</th>
               <th>Subtotal</th>
               <th>Total</th>
@@ -107,12 +116,31 @@ const Home = () => {
             {userReceipts.map((item, index) => {
               return (
                 <tr className="receipt-individual">
-                  <td> {item.name}</td>
+                  <td style={{ fontWeight: "bold" }}> {item.receiptName}</td>
+                  <td>
+                    <img
+                      className="receipt-image-small"
+                      style={{ height: "30px", width: "30px" }}
+                      src={
+                        "https://proofbox-bucket-2.s3.amazonaws.com/" +
+                        item.name
+                          .replace(/:/g, "")
+                          .replace(/\\/g, "")
+                          .replace(/C/g, "")
+                          .replace(/fakepath/, "")
+                      }
+                    ></img>
+                  </td>
                   <td> {item.category}</td>
                   <td>$ {item.subtotal}</td>
                   <td>$ {item.total}</td>
-                  <td>$ {item.date}</td>
-                  <button onClick={() => updateReceipt(item.id)}>Update</button>
+                  <td>{item.date}</td>
+                  <button
+                    className="update-button"
+                    onClick={() => updateReceipt(item.id)}
+                  >
+                    Update
+                  </button>
                   <button
                     index={item._id}
                     onClick={() => deleteReceipt(item._id)}
@@ -128,42 +156,72 @@ const Home = () => {
       </div>
       <div className="form-Container">
         <div className="receipt-form-container">
-          <form enctype="multipart/form-data" className="receipt-form">
+          <form
+            onSubmit={handleUpload}
+            encType="multipart/form-data"
+            className="receipt-form"
+          >
             <input
-              name="name"
-              value={state.name}
-              placeholder="Name"
-              onChange={handleChange}
+              name="receiptName"
+              value={state.receiptName}
+              placeholder="Receipt Name"
+              onChange={onChange}
             ></input>
             <input
               name="category"
               value={state.category}
+              placeholder="Category"
+              onChange={onChange}
+            ></input>
+
+            <input
+              name="subtotal"
+              value={state.subtotal}
+              placeholder="Subtotal"
+              onChange={onChange}
+            ></input>
+
+            <input
+              name="total"
+              value={state.total}
+              placeholder="Total"
+              onChange={onChange}
+            ></input>
+            <input
+              name="name"
+              value={state.name}
+              placeholder="Name"
+              onChange={onChange}
+            ></input>
+            {/* <input
+              name="category"
+              value={state.category}
               placeholder="category"
-              onChange={handleChange}
+              onChange={onChange}
             ></input>
             <input
               name="subtotal"
               value={state.subtotal}
               placeholder="subtotal"
-              onChange={handleChange}
+              onChange={onChange}
             ></input>
             <input
               name="total"
               value={state.total}
               placeholder="total"
-              onChange={handleChange}
-            ></input>
+              onChange={onChange}
+            ></input> */}
 
             <input
-              name="imageURL"
+              name=""
               type="file"
-              id="input-files"
+              id=""
               placeholder="Upload Image"
-              onChange={(e) => this.uploadImage(e, "multer")}
+              onChange={handleSelectedFile}
             ></input>
             <img src={state.imgSrc} alt="upload-image"></img>
 
-            <button onClick={addReceipt}>Upload Receipt</button>
+            <button type="submit">Upload Receipt</button>
           </form>
         </div>
       </div>
