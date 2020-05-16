@@ -5,26 +5,9 @@ import "./Home.css";
 import axios from "axios";
 import ImageGrid from "../ImageGrid";
 import receiptsApi from "../api/receiptsApi";
-import algoliasearch from "algoliasearch/lite";
-import { InstantSearch, SearchBox, Hits } from "react-instantsearch-dom";
 
-// search area
-
-const searchClient = algoliasearch(
-  "FRJVR4E6Y4",
-  "c85d022bc27816c31277cfc57bc250ff"
-);
-
-const Hit = ({ hit }) => {
-  console.log("hit", hit);
-  return (
-    <div>
-      <p>
-        {hit.name} || {hit.category}
-      </p>
-    </div>
-  );
-};
+import DefaultImg from "../images/default-img.jpg";
+import Vegas1 from "../images/vegas1.jpg";
 
 const Home = () => {
   const [userReceipts, setUserReceipts] = useState([]);
@@ -37,9 +20,22 @@ const Home = () => {
     category: "",
     subtotal: "",
     total: "",
-    imageURL: "",
+    file: null,
+    imgSrc: DefaultImg,
     user_id: tempUserId,
   });
+
+  function setDefaultImage(uploadType) {
+    if (uploadType === "multer") {
+      setState({
+        multerImage: DefaultImg,
+      });
+    } else {
+      setState({
+        baseImage: DefaultImg,
+      });
+    }
+  }
 
   const addReceipt = async (e) => {
     e.preventDefault();
@@ -57,6 +53,10 @@ const Home = () => {
 
   const deleteReceipt = (receipt_id) => {
     const response = receiptsApi.deleteReceipt(receipt_id);
+  };
+
+  const updateReceipt = (receipt_id) => {
+    const response = receiptsApi.updateReceipt(receipt_id);
   };
 
   const fetchReceipts = async () => {
@@ -78,54 +78,57 @@ const Home = () => {
   // change handler
 
   function handleChange(e) {
-    const value = e.target.value;
+    const { value, name } = e.target;
     setState({
-      ...state,
-      [e.target.name]: value,
+      [name]: value,
     });
   }
 
   return (
     <div>
       <div className="image-box">
-        <ImageGrid />
-        <div className="search-container">
-          <InstantSearch searchClient={searchClient} indexName="receipts">
-            <SearchBox />
-            <Hits hitComponent={Hit} />
-          </InstantSearch>
-        </div>
+        <img
+          src={Vegas1}
+          style={{ height: "320px", width: "1500px" }}
+          alt="coverphoto"
+        ></img>
       </div>
       <div className="receipt-results">
-        <table id="receipts">
-          <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Subtotal</th>
-            <th>Total</th>
-          </tr>
-          {userReceipts.map((item, index) => {
-            return (
-              <tr className="receipt-individual">
-                <td> {item.name}</td>
-                <td> {item.category}</td>
-                <td>$ {item.subtotal}</td>
-                <td>$ {item.total}</td>
-                <button
-                  index={item._id}
-                  onClick={() => deleteReceipt(item._id)}
-                  className="delete-button"
-                >
-                  X
-                </button>
-              </tr>
-            );
-          })}
-        </table>
+        <div className="title-section">
+          <h3>Manage Expenses</h3>
+          <table id="receipts">
+            <tr>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Subtotal</th>
+              <th>Total</th>
+              <th>Date</th>
+            </tr>
+            {userReceipts.map((item, index) => {
+              return (
+                <tr className="receipt-individual">
+                  <td> {item.name}</td>
+                  <td> {item.category}</td>
+                  <td>$ {item.subtotal}</td>
+                  <td>$ {item.total}</td>
+                  <td>$ {item.date}</td>
+                  <button onClick={() => updateReceipt(item.id)}>Update</button>
+                  <button
+                    index={item._id}
+                    onClick={() => deleteReceipt(item._id)}
+                    className="delete-button"
+                  >
+                    X
+                  </button>
+                </tr>
+              );
+            })}
+          </table>
+        </div>
       </div>
       <div className="form-Container">
         <div className="receipt-form-container">
-          <form className="receipt-form">
+          <form enctype="multipart/form-data" className="receipt-form">
             <input
               name="name"
               value={state.name}
@@ -150,12 +153,15 @@ const Home = () => {
               placeholder="total"
               onChange={handleChange}
             ></input>
+
             <input
               name="imageURL"
-              value={state.total}
+              type="file"
+              id="input-files"
               placeholder="Upload Image"
-              onChange={handleChange}
+              onChange={(e) => this.uploadImage(e, "multer")}
             ></input>
+            <img src={state.imgSrc} alt="upload-image"></img>
 
             <button onClick={addReceipt}>Upload Receipt</button>
           </form>
