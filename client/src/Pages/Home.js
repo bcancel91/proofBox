@@ -9,8 +9,6 @@ import receiptsApi from "../api/receiptsApi";
 import DefaultImg from "../images/default-img.jpg";
 import Vegas1 from "../images/vegas1.jpg";
 
-const API_URL = "http://localhost:8000";
-
 const Home = () => {
   const [userReceipts, setUserReceipts] = useState([]);
 
@@ -22,7 +20,8 @@ const Home = () => {
     category: "",
     subtotal: "",
     total: "",
-    multerImage: DefaultImg,
+    file: null,
+    imgSrc: DefaultImg,
     user_id: tempUserId,
   });
 
@@ -35,35 +34,6 @@ const Home = () => {
       setState({
         baseImage: DefaultImg,
       });
-    }
-  }
-
-  function uploadImage(e, method) {
-    let imageObj = {};
-
-    if (method === "multer") {
-      let imageFormObj = new FormData();
-
-      imageFormObj.append("imageData", e.target.files[0]);
-
-      setState({
-        multerImage: URL.createdObjectURL(e.target.files[0]),
-      });
-
-      axios
-        .post(`${API_URL}/image/uploadmulter`, imageFormObj)
-        .then((data) => {
-          if (data.data.success) {
-            alert("Image has been successfully uploaded using multer");
-            setDefaultImage("multer");
-          }
-        })
-        .catch((err) => {
-          alert("error while uploading image using multer");
-          setDefaultImage("multer");
-        });
-    } else if (method === "firebase") {
-      console.log("firebase");
     }
   }
 
@@ -191,7 +161,7 @@ const Home = () => {
               placeholder="Upload Image"
               onChange={(e) => this.uploadImage(e, "multer")}
             ></input>
-            <img src={state.multerImage} alt="upload-image"></img>
+            <img src={state.imgSrc} alt="upload-image"></img>
 
             <button onClick={addReceipt}>Upload Receipt</button>
           </form>
