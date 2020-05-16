@@ -21,13 +21,22 @@ const receiptSchema = new Schema({
     type: String,
     trim: true,
   },
+  receiptName: {
+    type: String,
+    trim: true,
+  },
   date: {
     type: Date,
     default: Date.now,
   },
-  imageData: {
+  productImage: {
     type: String,
-    required: true,
+  },
+  fileLink: {
+    type: String,
+  },
+  s3_key: {
+    type: String,
   },
 });
 

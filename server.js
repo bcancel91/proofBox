@@ -10,6 +10,7 @@ var cors = require("cors");
 
 // the __dirname is the current directory from where the script is running
 app.use(cors());
+app.options("*", cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
