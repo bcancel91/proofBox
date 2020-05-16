@@ -9,14 +9,14 @@
   flex-direction: column;
 }
 
-.search-container {
-  width: 960px;
-  margin: 15px auto;
-}
-
 .receipt-individual > * {
   margin: 5px;
   padding: 5px;
+}
+
+.title-section {
+  border: 1px solid black;
+  width: 100%;
 }
 
 #receipts {
@@ -28,8 +28,7 @@
 }
 
 .receipt-results {
-  width: 960px;
-  margin: 15px auto;
+  width: 100%;
 }
 
 .receipt-items {
