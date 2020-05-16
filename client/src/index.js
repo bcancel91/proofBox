@@ -10,7 +10,6 @@ import InfoContainer from "./info.body";
 import StatsContainer from "./stats.body";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Signup from "./Signup";
-import Login from "./Login";
 
 const App = () => {
   return (
@@ -19,21 +18,9 @@ const App = () => {
         <Header />
         <div>
           <Switch>
-            {/* <Route path="/login" exact>
-              <Login />
-            </Route>
-            <Route path="/signup" exact>
-              <Signup />
-            </Route>
-            <Route path="/">
-             <DemoContainer />
-              <SeneriosContainer />
-              <InfoContainer />
-              <StatsContainer /> 
-            <Home />
             <Route path="/" exact>
               <Home />
-            </Route> */}
+            </Route>
             <Route path="/login">
               <Login />
             </Route>
