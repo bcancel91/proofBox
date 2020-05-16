@@ -30,7 +30,6 @@ const Header = () => {
           src={proofboxlogo}
           alt="document logo"
         />
-      </a>
       <div className="search-container">
         <InstantSearch searchClient={searchClient} indexName="receipts">
           <SearchBox />
@@ -39,7 +38,7 @@ const Header = () => {
 
       <div className="mainHeaderRight">
         <button className="main-button">
-          <a href="#">Signup</a>
+          <a href="/signup">Signup</a>
         </button>
         <button className="main-button">
           <Link to="login">Login</Link>
